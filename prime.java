@@ -32,3 +32,4 @@ public class shameer {
 	}
 
 }
+\*prime number*\
