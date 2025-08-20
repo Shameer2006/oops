@@ -59,3 +59,32 @@ public class bassil {
         }
     }
 }
+/**Choose an option:
+*1. Start the car
+*2. Stop the car
+*3. Exit
+*Enter your choice: 1
+*Enter the car model: tesla
+*Enter the car color: red
+*Car started - Model: tesla, Color: red
+
+*Choose an option:
+*1. Start the car
+*2. Stop the car
+*3. Exit
+*Enter your choice: 2
+*Car is stopped
+
+*Choose an option:
+*1. Start the car
+*2. Stop the car
+*3. Exit
+*Enter your choice: 2
+*Car is not started
+
+*Choose an option:
+*1. Start the car
+*2. Stop the car
+*3. Exit
+*Enter your choice: 3
+*Exiting program...*/
