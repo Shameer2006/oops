@@ -1,0 +1,35 @@
+class shape{
+	void area() {
+		System.out.println("area of the shape");
+	}
+}
+class circle extends shape{
+	
+	void area(double a) {
+		double r = a;
+		final double pi = 3.14;
+		System.out.println("area of the circle is :"+pi*r*r);
+	}
+}
+class rectangle extends shape{
+
+	void area(double a,double b) {
+		double h =a;
+		double w =b;
+		System.out.println("area of the rectangle is :"+h*w);
+	}
+}
+public class mdbassil {
+
+	public static void main(String[] args) {
+		shape s = new shape();
+		circle c = new circle();
+		rectangle r = new rectangle();
+		s.area();
+		c.area(10.0);
+		r.area(10.0,20.0);
+		
+
+	}
+
+}
