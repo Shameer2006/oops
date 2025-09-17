@@ -1,0 +1,88 @@
+// Interface for Account actions
+interface Account {
+    void deposit(double amount);
+    void withdraw(double amount);
+    double getBalance();
+}
+
+// Interface for Transaction
+interface Transaction {
+    void execute();
+}
+
+// Simple BankAccount implements Account
+class BankAccount implements Account {
+    private double balance = 0;
+
+    @Override
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposited " + amount);
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if(amount > balance) {
+            System.out.println("Not enough money");
+        } else {
+            balance -= amount;
+            System.out.println("Withdrew " + amount);
+        }
+    }
+
+    @Override
+    public double getBalance() {
+        return balance;
+    }
+}
+
+// DepositTransaction implements Transaction
+class DepositTransaction implements Transaction {
+    private Account account;
+    private double amount;
+
+    public DepositTransaction(Account account, double amount) {
+        this.account = account;
+        this.amount = amount;
+    }
+
+    @Override
+    public void execute() {
+        account.deposit(amount);
+    }
+}
+
+// WithdrawTransaction implements Transaction
+class WithdrawTransaction implements Transaction {
+    private Account account;
+    private double amount;
+
+    public WithdrawTransaction(Account account, double amount) {
+        this.account = account;
+        this.amount = amount;
+    }
+
+    @Override
+    public void execute() {
+        account.withdraw(amount);
+    }
+}
+
+// Main class to test
+public class SimpleBank {
+    public static void main(String[] args) {
+        Account myAccount = new BankAccount();
+
+        Transaction deposit = new DepositTransaction(myAccount, 100);
+        deposit.execute(); // deposit 100
+        System.out.println("Balance: " + myAccount.getBalance());
+
+        Transaction withdraw = new WithdrawTransaction(myAccount, 50);
+        withdraw.execute(); // withdraw 50
+        System.out.println("Balance: " + myAccount.getBalance());
+
+        withdraw = new WithdrawTransaction(myAccount, 100);
+        withdraw.execute(); // try withdraw 100 (not enough)
+        System.out.println("Balance: " + myAccount.getBalance());
+    }
+}
