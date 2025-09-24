@@ -1,0 +1,65 @@
+import java.util.*;
+
+class TreeNode<T> {
+    T data;
+    TreeNode<T> left, right;
+
+    TreeNode(T data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+class BinaryTree<T> {
+    TreeNode<T> root;
+
+    // Insert nodes manually (for simplicity, just assign root or children)
+    public void setRoot(T data) {
+        root = new TreeNode<>(data);
+    }
+
+    // DFS In-order traversal: Left -> Root -> Right
+    public void inOrder(TreeNode<T> node) {
+        if (node == null) return;
+        inOrder(node.left);
+        System.out.print(node.data + " ");
+        inOrder(node.right);
+    }
+
+    // BFS Level-order traversal
+    public void levelOrder() {
+        if (root == null) return;
+        Queue<TreeNode<T>> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode<T> current = queue.poll();
+            System.out.print(current.data + " ");
+
+            if (current.left != null)
+                queue.add(current.left);
+            if (current.right != null)
+                queue.add(current.right);
+        }
+    }
+}
+
+public class multithreadracesimulation {
+    public static void main(String[] args) {
+        BinaryTree<Integer> tree = new BinaryTree<>();
+
+        // Manually create nodes
+        tree.setRoot(1);
+        tree.root.left = new TreeNode<>(2);
+        tree.root.right = new TreeNode<>(3);
+        tree.root.left.left = new TreeNode<>(4);
+        tree.root.left.right = new TreeNode<>(5);
+
+        System.out.print("In-order DFS: ");
+        tree.inOrder(tree.root);  // Output: 4 2 5 1 3
+        System.out.println();
+
+        System.out.print("Level-order BFS: ");
+        tree.levelOrder();         // Output: 1 2 3 4 5
+    }
+}
