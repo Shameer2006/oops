@@ -1,0 +1,42 @@
+class Racer extends Thread {
+    private String name;
+    private int sleepTime;
+
+    public Racer(String name, int sleepTime) {
+        this.name = name;
+        this.sleepTime = sleepTime;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(name + " has started the race!");
+        for (int i = 1; i <= 10; i++) {
+            try {
+                Thread.sleep(sleepTime); // Simulates time taken for each step
+            } catch (InterruptedException e) {
+                System.out.println(name + " was interrupted.");
+            }
+            System.out.println(name + " reached step " + i);
+        }
+        System.out.println(name + " has finished the race!");
+    }
+}
+
+public class MultiThreadedRaceSimulation {
+    public static void main(String[] args) {
+        // ✅ Test Case 1: Both threads same speed
+        Racer racerA = new Racer("Racer A", 300); // Sleep 300ms per step
+        Racer racerB = new Racer("Racer B", 300); // Sleep 300ms per step
+
+        // ✅ Test Case 2: Different sleep times
+        // Racer racerA = new Racer("Racer A", 200);
+        // Racer racerB = new Racer("Racer B", 400);
+
+        // ✅ Test Case 4: Adding a third thread
+        // Racer racerC = new Racer("Racer C", 250);
+
+        racerA.start();
+        racerB.start();
+        // racerC.start(); // Uncomment for Test Case 4
+    }
+}
