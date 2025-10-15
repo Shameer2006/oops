@@ -1,0 +1,63 @@
+import java.sql.*;
+
+public class JdbcDataRetriever {
+
+    // --- 1. Define Connection Details (UPDATE PASSWORD HERE) ---
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydatabase";
+    private static final String USER = "root"; 
+    private static final String PASS = "YOUR_ACTUAL_PASSWORD_HERE"; // <--- CHANGE THIS
+    
+    // Query to fetch data from the 'products' table
+    private static final String SELECT_QUERY = "SELECT product_id, name, price FROM products";
+
+    public static void main(String[] args) {
+        
+        // The try-with-resources block automatically closes Connection, Statement, and ResultSet
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SELECT_QUERY)) {
+            
+            // --- TC1: Connect to DB successfully ---
+            System.out.println("✅ TC1 Output: Connected to the database successfully.");
+
+            System.out.println("\n--- Retrieved Records ---");
+
+            boolean recordsFound = false;
+            // --- 2. Process Result Set and Display Data ---
+            while (resultSet.next()) {
+                recordsFound = true;
+                
+                // Retrieve data by column name
+                int id = resultSet.getInt("product_id");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+
+                // Output the data
+                System.out.printf("ID: %d, Name: %s, Price: $%.2f%n", id, name, price);
+            }
+
+            // --- TC2 & TC4 Logic ---
+            if (recordsFound) {
+                System.out.println("✅ TC2 Output: Record displayed (Data retrieval successful).");
+            } else {
+                System.out.println("⚠️ TC4 Output: No result (Query returned an empty set).");
+            }
+
+        } catch (SQLSyntaxErrorException e) {
+            // --- TC5: Malformed SQL ---
+            System.err.println("❌ TC5 Output: SQLSyntaxErrorException");
+            System.err.println("Error Detail: Check your SQL syntax.");
+
+        } catch (SQLException e) {
+            // --- TC3: Invalid Credentials or other general DB errors ---
+            if (e.getSQLState() != null && e.getSQLState().startsWith("28")) {
+                System.err.println("❌ TC3 Output: Access denied");
+                System.err.println("Error Detail: Check your password.");
+            } else {
+                // Catch all other SQLExceptions (e.g., DB not running, table missing)
+                System.err.println("❌ Database Error: " + e.getMessage());
+            }
+
+        } // Resources are automatically closed here
+    }
+}
